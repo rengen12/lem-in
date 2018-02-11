@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include "lem_in.h"
 
-int 	ft_is_int(ssize_t num)
+void 	reset_to_default(t_data *dt)//delete prev and stat int rooms
 {
-	if (num <= 2147483647 && num >= -2147483648)
-		return (1);
-	return (0);
+
 }
 
 int 	hash_func(char *s)
@@ -18,9 +16,38 @@ int 	hash_func(char *s)
 	return (res % 100);
 }
 
+char 	*get_room_name(char *s)
+{
+	int 	i;
+	char 	*res;
+
+	i = 0;
+	while (s[i] != ' ')
+		i++;
+	if (!(res = ft_strnew(i)))
+		return (NULL);
+	i = 0;
+	while (*s != ' ')
+		res[i++] = *s++;
+	return (res);
+}
+
 void	add_room(t_data *dt, char *s, int lt)
 {
+	int 	hf;
+	t_rooms	*room;
 
+	if (!(room = (t_rooms *)malloc(sizeof(t_rooms))))
+		return ;
+	*room = (t_rooms){0, 0, 0, 0};
+	room->name = get_room_name(s);
+	hf = hash_func(room->name);
+	room->next = dt->rooms[hf];
+	dt->rooms[hf] = room;
+	if (lt == START)
+		dt->st = room;
+	else if (lt == END)
+		dt->end = room;
 }
 
 void	add_link(t_data *dt, char *s, int lt)
@@ -99,8 +126,6 @@ int 	is_room(char *s)
 
 int 	is_link(char *s)
 {
-	//validate names
-	//one minus
 	int	res;
 
 	res = 0;
@@ -124,7 +149,7 @@ int 	is_n_ants(char *s)
 		if (ft_isdigit(*s))
 			s++;
 		else
-			return (0);
+			return (FAIL);
 	return (1);
 }
 
@@ -182,7 +207,7 @@ int 	parse(t_data *dt)
 	return (res);
 }
 
-void	init_struct(t_data *dt)
+void	init_data(t_data *dt)
 {
 	int 	i;
 
@@ -199,7 +224,7 @@ void	delete_struct(t_data *dt)
 
 }
 
-void	find_way(t_data *dt)
+void	find_ways(t_data *dt)
 {
 
 }
@@ -208,12 +233,12 @@ int main(void)
 {
 	t_data	dt;
 
-	init_struct(&dt);
+	init_data(&dt);
 	if (!parse(&dt))
 	{
 		delete_struct(&dt);
 		return (1);
 	}
-	find_way(&dt);
+	find_ways(&dt);
 	return (0);
 }
