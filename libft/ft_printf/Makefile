@@ -13,7 +13,7 @@
 .PHONY:				all clean fclean re $(NAME)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 NAME = libftprintf.a
 HEADER = -I ./
 OBJFOLD = ./obj/

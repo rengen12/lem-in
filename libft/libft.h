@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <stdarg.h>
 
-# define BUFF_SIZE 12
+# define BUFF_SIZE 9
 
 typedef struct	s_list
 {
@@ -106,4 +106,5 @@ int				ft_printf(const char *format, ...);
 void			ft_puterr(char *message);
 char			*ft_realloc(char *str, size_t sz);
 char			*concat_strs(char *str, ...);
+int				ft_issptab(int c);
 #endif

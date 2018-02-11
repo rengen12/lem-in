@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   ft_issptab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amichak <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/30 15:43:21 by amichak           #+#    #+#             */
-/*   Updated: 2017/10/30 15:43:26 by amichak          ###   ########.fr       */
+/*   Created: 2017/10/26 14:08:48 by amichak           #+#    #+#             */
+/*   Updated: 2017/10/31 16:21:07 by amichak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+int		ft_issptab(int c)
 {
-	char	*r;
-	size_t	i;
-
-	if (!s || !(r = ft_strnew(len)))
-		return (NULL);
-	i = 0;
-	while (len--)
-		r[i++] = s[start++];
-	r[i] = '\0';
-	return (r);
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
 }
