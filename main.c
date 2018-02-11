@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include "lem_in.h"
 
-#define FAIL	0
-#define COMM	1
-#define IGNORE	20
-#define START	21
-#define END		22
-#define N_ANTS	3
-#define ROOM	4
-#define LINK	5
-
 int 	ft_is_int(ssize_t num)
 {
 	if (num <= 2147483647 && num >= -2147483648)
 		return (1);
 	return (0);
+}
+
+int 	hash_func(char *s)
+{
+	int 	res;
+
+	res = 0;
+	while (*s)
+		res += *s++;
+	return (res % 100);
 }
 
 void	add_room(t_data *dt, char *s, int lt)
@@ -30,13 +31,25 @@ void	add_link(t_data *dt, char *s, int lt)
 int		add_data(int lt, t_data *dt, char *s)
 {
 	char	*line;
+	char 	*temp;
 
 	if (lt == COMM || lt == IGNORE || lt == FAIL)
 		return (lt);
 	if (lt == START || lt == END)
 	{
 		if (get_next_line(0, &line) > 0) // add validate
-			add_room(dt, line, lt);
+		{
+			temp = ft_strtrim(line);
+			if (is_room(temp))
+				add_room(dt, temp, lt);
+			else
+			{
+				free(temp);
+				free(line);
+				return (FAIL);
+			}
+			free(temp);
+		}
 		free(line);
 	}
 	else if (lt == N_ANTS)
@@ -46,14 +59,9 @@ int		add_data(int lt, t_data *dt, char *s)
 			return (FAIL);
 	}
 	else if (lt == ROOM)
-	{
 		add_room(dt, s, lt);
-
-	}
 	else if (lt == LINK)
-	{
 		add_link(dt, s, lt);
-	}
 }
 
 int 	is_room(char *s)
@@ -69,7 +77,7 @@ int 	is_room(char *s)
 		sp++;
 	while (*s && *s == ' ')
 		s++;
-	if (!ft_is_int(ft_atoi(s))
+	if (!ft_is_int(ft_atoi(s)))
 		return (FAIL);
 	while (*s && ft_isdigit(*s))
 		s++;
@@ -166,7 +174,7 @@ int 	parse(t_data *dt)
 	while (res && get_next_line(0, &line) > 0)
 	{
 		temp = ft_strtrim(line);
-		res = add_data(line_type(ft_strtrim(temp)), dt, temp);
+		res = add_data(line_type(temp), dt, temp);
 		free(line);
 		free(temp);
 	}
@@ -176,13 +184,22 @@ int 	parse(t_data *dt)
 
 void	init_struct(t_data *dt)
 {
-	dt->st = (t_rooms){0, 0, 0, 0};
-	dt->end = (t_rooms){0, 0, 0, 0};
-	dt->rooms = (t_rooms){0, 0, 0, 0};
-	dt->ways = (t_rooms){0, 0, 0, 0};
+	int 	i;
+
+	i = 0;
+	dt->st = 0;
+	dt->end = 0;
+	dt->ways = 0;
+	while (i < 100)
+		dt->rooms[i++] = 0;
 }
 
 void	delete_struct(t_data *dt)
+{
+
+}
+
+void	find_way(t_data *dt)
 {
 
 }
@@ -197,6 +214,6 @@ int main(void)
 		delete_struct(&dt);
 		return (1);
 	}
-	//find_way();
+	find_way(&dt);
 	return (0);
 }
