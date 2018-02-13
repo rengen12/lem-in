@@ -34,9 +34,15 @@ struct	s_rooms
 	t_neigh			*neigh;
 };
 
+typedef struct	s_way
+{
+	t_rooms			*room;
+	struct s_way	*next;
+}				t_way;
+
 typedef struct	s_ways
 {
-	t_rooms			*head;
+	t_way			*way;
 	int 			depth;
 	struct s_ways	*other;
 }				t_ways;
@@ -46,7 +52,7 @@ typedef struct	s_data
 	int			n_ants;
 	t_rooms		*st;
 	t_rooms		*end;
-	t_rooms		*ways;//?
+	t_ways		*ways;
 	t_rooms		*rooms[100];
 }				t_data;
 
