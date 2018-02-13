@@ -16,14 +16,23 @@
 # define VSTD	2
 # define BLKD	3
 
-typedef struct	s_rooms //for hash funct
+typedef struct s_rooms	t_rooms;
+
+typedef struct	s_neigh
+{
+	t_rooms			*room;
+	struct s_neigh	*next;
+}				t_neigh;
+
+struct	s_rooms
 {
 	char 			*name;
 	short int		stat;
 	int				depth;
-	struct s_rooms	*next;
-	struct s_rooms	*neigh;
-}				t_rooms;
+	struct s_rooms	*next; //for hash funct
+	struct s_rooms	*prev; //for way building
+	t_neigh			*neigh;
+};
 
 typedef struct	s_ways
 {
