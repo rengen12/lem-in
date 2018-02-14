@@ -37,6 +37,7 @@ struct	s_rooms
 typedef struct	s_way
 {
 	t_rooms			*room;
+	short int		ant;
 	struct s_way	*next;
 }				t_way;
 
@@ -56,6 +57,12 @@ typedef struct	s_data
 	t_rooms		*rooms[100];
 }				t_data;
 
+typedef struct	s_ant
+{
+	int 			n_ant;
+	t_way			*room;
+	struct s_ant	*next;
+}				t_ant;
 
 int 	is_room(char *s);
 #endif

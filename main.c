@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include "lem_in.h"
-#include "libft/src/ft_strcmp.c"
-#include "libft/src/ft_strtrim.c"
-#include "libft/src/get_next_line.c"
 
 void 	reset_to_default(t_data *dt)//delete prev and stat int rooms
 {
@@ -436,6 +433,7 @@ t_way	*create_way_elem(t_rooms *room)
 	if (!(res = (t_way *)malloc(sizeof(t_way))))
 		return (NULL);
 	res->next = NULL;
+	res->ant = 0;
 	res->room = room;
 	return (res);
 }
@@ -607,20 +605,30 @@ void	print_way(t_way *way)
 	ft_putendl("");
 }
 
-void	print_ways(t_data dt)
+void	handle_ants(t_data *dt)
+{
+	t_ant	*ants;
+
+	if (!(ants = (t_ant *)malloc(sizeof(t_ant))))
+		return ;
+
+}
+
+void	print_ways(t_data *dt)
 {
 	t_ways *ways;
 
-	if (!dt.ways)
+	if (!dt->ways)
 		ft_puterr("No way was found");
 	else
 	{
-		ways = dt.ways;
+		handle_ants(dt);
+		/*ways = dt.ways;
 		while (ways)
 		{
 			print_way(ways->way);
 			ways = ways->other;
-		}
+		}*/
 	}
 }
 
@@ -634,9 +642,8 @@ int main(void)
 		delete_structs(&dt);
 		return (1);
 	}
-	//print_data(dt);
 	find_ways(&dt);
-	print_ways(dt);
+	print_ways(&dt);
 	delete_structs(&dt);
 	return (0);
 }
