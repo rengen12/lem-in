@@ -605,13 +605,54 @@ void	print_way(t_way *way)
 	ft_putendl("");
 }
 
+int 	count_iter_for_way(int depth, int qant)
+{
+	if (qant <= 0 || depth <= 0)
+		return (0);
+	return (depth + qant - 1);
+}
+
+int 	*calculate_parallel(t_data *dt, int nw, int n_ants)
+{
+	int	*res;
+	int 	i;
+
+	if (!(res = ft_arrnew(nw + 1)))
+		return (NULL);
+	res[0] = nw;
+	while (n_ants > 0)
+	{
+		i = 1;
+		while (i <= nw)
+		{
+			res[i++]++;
+			n_ants--;
+			if (res[i])
+		}
+	}
+	return (res);
+}
+
+int 	count_num_ways(t_ways *ways)
+{
+	int 	i;
+
+	i = 0;
+	while (ways)
+	{
+		i++;
+		ways = ways->other;
+	}
+	return (i);
+}
+
 void	handle_ants(t_data *dt)
 {
 	t_ant	*ants;
 
 	if (!(ants = (t_ant *)malloc(sizeof(t_ant))))
 		return ;
-
+	calculate_parallel(dt, count_num_ways(dt->ways), dt->n_ants);
 }
 
 void	print_ways(t_data *dt)
