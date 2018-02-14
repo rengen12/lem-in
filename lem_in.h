@@ -53,6 +53,7 @@ typedef struct	s_data
 	int			n_ants;
 	t_rooms		*st;
 	t_rooms		*end;
+	int 		n_ways;
 	t_ways		*ways;
 	t_rooms		*rooms[100];
 }				t_data;

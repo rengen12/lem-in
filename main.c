@@ -357,6 +357,7 @@ void	init_data(t_data *dt)
 	dt->st = 0;
 	dt->end = 0;
 	dt->ways = 0;
+	dt->n_ways = 0;
 	while (i < 100)
 		dt->rooms[i++] = 0;
 }
@@ -498,7 +499,7 @@ t_ways	*create_way(t_way **way, t_rooms *tail)
 	t_ways	*res;
 
 	if (!(res = (t_ways *)malloc(sizeof(t_ways))))
-		return (NULL);
+		return (NULL); //handle it
 	res->depth = tail->depth;
 	res->other = NULL;
 	res->way = NULL;
@@ -542,6 +543,19 @@ void	ways_pb(t_data *dt, t_ways *way)
 	}
 }
 
+int 	count_num_ways(t_ways *ways)
+{
+	int 	i;
+
+	i = 0;
+	while (ways)
+	{
+		i++;
+		ways = ways->other;
+	}
+	return (i);
+}
+
 void	find_ways(t_data *dt)
 {
 	t_way	*q;
@@ -559,6 +573,8 @@ void	find_ways(t_data *dt)
 		if (res->depth < 2)
 			break ;
 	}
+	if (dt->ways)
+		dt->n_ways = count_num_ways(dt->ways);
 }
 
 void	print_data(t_data dt)
@@ -605,71 +621,173 @@ void	print_way(t_way *way)
 	ft_putendl("");
 }
 
-int 	count_iter_for_way(int depth, int qant)
+int 	qit(int depth, int qant)
 {
 	if (qant <= 0 || depth <= 0)
 		return (0);
 	return (depth + qant - 1);
 }
 
-int 	*calculate_parallel(t_data *dt, int nw, int n_ants)
+int 	*calc_parallel(int *lway, int n_ants)
 {
-	int	*res;
-	int 	i;
+	int	*r;
+	int i;
 
-	if (!(res = ft_arrnew(nw + 1)))
-		return (NULL);
-	res[0] = nw;
+	if (!(r = ft_arrnew(lway[0] + 1)))
+		return (NULL); //handle it
+	r[0] = lway[0];
 	while (n_ants > 0)
 	{
 		i = 1;
-		while (i <= nw)
+		r[i++]++;
+		n_ants--;
+		while (i <= lway[0])
 		{
-			res[i++]++;
-			n_ants--;
-			if (res[i])
+			if (n_ants > 0 && qit(lway[1], r[1]) >= qit(lway[i], r[i] + 1))
+			{
+				r[i]++;
+				n_ants--;
+			}
+			i++;
 		}
+	}
+	free(lway);
+	return (r);
+}
+
+void	add_ant(t_ant **ants, t_way *w)
+{
+	t_ant	*new;
+	t_ant	*t;
+
+	if (!ants || !(new = (t_ant *)malloc(sizeof(t_way))))
+		return ; //handle it
+	new->n_ant = 1;
+	new->room = w;
+	new->next = NULL;
+	if (!*ants)
+		*ants = new;
+	else
+	{
+		t = *ants;
+		while (t->next)
+			t = t->next;
+		new->n_ant = t->n_ant + 1;
+		t->next = new;
+	}
+}
+
+t_ant	*handle_ants(t_ways *ways, int n_ants, int *lway, t_way **mway)
+{
+	int 	*ant_f_w;
+	t_ant	*ants;
+	int 	i;
+
+	ant_f_w = calc_parallel(lway, n_ants);
+	ants = NULL;
+	while (n_ants > 0)
+	{
+		i = 1;
+		while (i <= ant_f_w[0])
+		{
+			if (n_ants > 0 && ant_f_w[i] > 0)
+			{
+				add_ant(&ants, mway[i]);
+				n_ants--;
+				ant_f_w[i]--;
+			}
+			i++;
+		}
+	}
+	free(ant_f_w);
+	free(mway);
+	return (ants);
+}
+
+int 	*mway_l(t_ways *ways, int nw)
+{
+	int 	*res;
+	int 	i;
+
+	i = 1;
+	if (!(res = ft_arrnew(nw + 1)))
+		return (NULL); //handle it
+	res[0] = nw;
+	while (i <= nw)
+	{
+		res[i++] = ways->depth;
+		ways = ways->other;
 	}
 	return (res);
 }
 
-int 	count_num_ways(t_ways *ways)
+t_way	**arr_way(t_ways *ways, int nways)
 {
+	t_way	**res;
 	int 	i;
 
-	i = 0;
+	i = 1;
+	if (!(res = (t_way **)malloc(sizeof(t_way *) * (nways + 1))))
+		return (NULL); //handle it
+	res[0] = NULL;
 	while (ways)
 	{
-		i++;
+		res[i++] = ways->way;
 		ways = ways->other;
 	}
-	return (i);
+	return (res);
 }
 
-void	handle_ants(t_data *dt)
+void	delete_ants(t_ant **ants)
 {
-	t_ant	*ants;
-
-	if (!(ants = (t_ant *)malloc(sizeof(t_ant))))
-		return ;
-	calculate_parallel(dt, count_num_ways(dt->ways), dt->n_ants);
+	if ((*ants)->next)
+		delete_ants(&(*ants)->next);
+	free(*ants);
+	*ants = NULL;
 }
-
 void	print_ways(t_data *dt)
 {
-	t_ways *ways;
+	t_ant	*ants;
+	t_ant	*cants;
+	int 	f;
 
 	if (!dt->ways)
 		ft_puterr("No way was found");
 	else
 	{
-		handle_ants(dt);
+		ants = handle_ants(dt->ways, dt->n_ants, mway_l(dt->ways, dt->n_ways), \
+					arr_way(dt->ways, dt->n_ways));
+		f = 1;
+		while (f)
+		{
+			f = 0;
+			cants = ants;
+			while (cants)
+			{
+				if (cants->room->next && cants->room->next->ant == 0)
+				{
+					cants->room->ant = 0;
+					cants->room = cants->room->next;
+					if (cants->room->room != dt->end)
+						cants->room->ant = 1;
+					ft_putchar('L');
+					ft_putnbr(cants->n_ant);
+					ft_putchar('-');
+					ft_putstr(cants->room->room->name);
+					ft_putchar(' ');
+					f = 1;
+				}
+				cants = cants->next;
+			}
+			ft_putchar('\n');
+		}
 		/*ways = dt.ways;
 		while (ways)
 		{
 			print_way(ways->way);
 			ways = ways->other;
 		}*/
+		delete_ants(&ants);
 	}
 }
 
