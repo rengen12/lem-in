@@ -94,7 +94,8 @@ void			print_ways(t_data *dt)
 				ants_walk(&f, dt, cants);
 				cants = cants->next;
 			}
-			ft_putchar('\n');
+			if (f)
+				ft_putchar('\n');
 		}
 		delete_ants(&ants);
 	}

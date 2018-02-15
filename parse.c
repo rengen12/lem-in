@@ -82,8 +82,6 @@ int			parse(t_data *dt)
 	line = NULL;
 	while (res && get_next_line(0, &line) > 0)
 	{
-		if (*line == '-') //temp
-			break ;
 		temp = ft_strtrim(line);
 		res = add_data(line_type(temp), dt, temp);
 		free(line);

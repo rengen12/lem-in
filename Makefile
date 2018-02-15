@@ -12,13 +12,15 @@
 
 .PHONY:		all clean fclean re $(NAME)
 
-CFLAGS = -Wall -Wextra -Werror
-SRC = main.c
-NAME = ft_ls
-OBJFOLD = obj
-LIBFT = ./libft/
-LIB = -L. libft/libft.a
-HEADER = -I ./
+CFLAGS =	-Wall -Wextra -Werror
+SRC =		add_data.c handle_ants.c handle_link.c handle_neigh.c \
+			handle_room.c handle_way.c main.c parse.c print_ways.c query.c \
+			verifer.c way_helpers.c
+NAME =		lem-in
+OBJFOLD =	obj/
+LIBFT =		./libft/
+LIB =		-L. libft/libft.a
+HEADER =	-I ./
 
 OBJ = $(addprefix $(OBJFOLD),$(patsubst %.c, %.o, $(SRC)))
 
@@ -27,6 +29,7 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 	@make -C $(LIBFT) -f Makefile
 	gcc $(CFLAGS) -o $(NAME) $(OBJ) $(LIB)
+	@echo "lem-in: done"
 
 $(OBJFOLD)%.o:	%.c
 	mkdir -p $(OBJFOLD)
