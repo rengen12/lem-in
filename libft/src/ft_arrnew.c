@@ -18,5 +18,5 @@ int		*ft_arrnew(int len)
 
 	if (!(mas = (int *)malloc(sizeof(int) * len)))
 		return (NULL);
-	return (ft_memset(mas, 0, len));
+	return (ft_memset(mas, 0, sizeof(int) * len));
 }
