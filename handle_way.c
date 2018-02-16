@@ -51,7 +51,7 @@ static void	reset_to_default(t_data *dt)
 	i = 0;
 	dt->end->prev = 0;
 	dt->end->stat = NVSTD;
-	while (i < 100)
+	while (i < 200)
 	{
 		if (dt->rooms[i] && dt->rooms[i]->stat != BLKD)
 		{

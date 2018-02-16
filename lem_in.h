@@ -10,6 +10,7 @@
 # define N_ANTS	3
 # define ROOM	4
 # define LINK	5
+# define RM_EXT	6
 
 # define NVSTD	0
 # define WTNG	1
@@ -55,7 +56,7 @@ typedef struct	s_data
 	t_rooms		*end;
 	int 		n_ways;
 	t_ways		*ways;
-	t_rooms		*rooms[100];
+	t_rooms		*rooms[200];
 }				t_data;
 
 typedef struct	s_ant
@@ -69,10 +70,11 @@ int 	is_room(char *s);
 int 	is_link(char *s);
 int 	is_n_ants(char *s);
 
-int		parse(t_data *dt);
-int		add_data(int lt, t_data *dt, char *s);
-t_rooms	*add_room(t_data *dt, char *name, int lt);
-void	add_link(t_data *dt, char *s);
+int		parse(t_data *dt, char **file);
+int		add_data(int lt, t_data *dt, char *s, char **file);
+int		add_room(t_data *dt, char *name, int lt);
+int		add_link(t_data *dt, char *s);
+t_rooms	*find_room(char *name, t_data dt);
 
 int 	have_neigh(t_rooms *room, char *name);
 void	add_neigh(t_rooms *r1, t_rooms *r2);
@@ -88,7 +90,7 @@ void	clear_query(t_way **q);
 
 void	handle_neigh(t_way **q, t_rooms *cur);
 
-void	print_ways(t_data *dt);
+void	print_ways(t_data *dt, char *file);
 
 t_ant	*handle_ants(int n_ants, int *lway, t_way **mway);
 

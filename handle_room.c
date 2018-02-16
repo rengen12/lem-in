@@ -19,10 +19,10 @@ static int		hash_func(char *s)
 	res = 0;
 	while (*s)
 		res += *s++;
-	return (res % 100);
+	return (res % 200);
 }
 
-static t_rooms	*find_room(char *name, t_data dt)
+t_rooms	*find_room(char *name, t_data dt)
 {
 	t_rooms	*res;
 
@@ -56,21 +56,22 @@ static int		is_room_exist(char *name, t_data dt)
 	return (0);
 }
 
-t_rooms			*add_room(t_data *dt, char *name, int lt)
+int				add_room(t_data *dt, char *name, int lt)
 {
 	int 	hf;
 	t_rooms	*room;
 
 	if (!name || !*name)
-		return (NULL);
+		return (FAIL);
+	if (lt == COMM)
+		return (lt);
 	if (is_room_exist(name, *dt))
 	{
-		room = find_room(name, *dt);
 		free(name);
-		return (room);
+		return (RM_EXT);
 	}
 	if (!(room = creat_room()))
-		return (NULL);
+		return (FAIL);
 	room->name = name;
 	hf = hash_func(name);
 	room->next = dt->rooms[hf];
@@ -79,5 +80,5 @@ t_rooms			*add_room(t_data *dt, char *name, int lt)
 		dt->st = room;
 	else if (lt == END)
 		dt->end = room;
-	return (room);
+	return (2);
 }

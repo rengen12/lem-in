@@ -72,16 +72,18 @@ void			ants_walk(int *f, t_data *dt, t_ant *cants)
 	}
 }
 
-void			print_ways(t_data *dt)
+void			print_ways(t_data *dt, char *file)
 {
 	t_ant	*ants;
 	t_ant	*cants;
 	int 	f;
 
 	if ((f = 1) == 1 && !dt->ways)
-		ft_puterr("No way was found or smth went wrong");
+		ft_putendl("ERROR");
 	else
 	{
+		ft_putendl(file);
+		free(file);
 		if (!(ants = handle_ants(dt->n_ants, mway_l(dt->ways, dt->n_ways), \
 					arr_way(dt->ways, dt->n_ways))))
 			return ;

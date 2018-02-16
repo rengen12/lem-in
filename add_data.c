@@ -28,31 +28,31 @@ static char 	*get_room_name(char *s)
 	return (res);
 }
 
-int		add_data(int lt, t_data *dt, char *s)
+int		add_data(int lt, t_data *dt, char *s, char **file)
 {
-	char	*line;
-	char 	*temp;
+	char	*line[2];
 	int 	res;
 
 	if ((res = 1) == 0 || lt == COMM || lt == IGNORE || lt == FAIL)
 		return (lt);
 	if (lt == START || lt == END)
 	{
-		if (get_next_line(0, &line) > 0)
+		if (get_next_line(0, &line[0]) > 0)
 		{
-			if (is_room(temp = ft_strtrim(line)))
-				res = add_room(dt, get_room_name(temp), lt) ? 1 : 0;
+			*file = ft_strjoin_fr_two(*file, concat_strs(line[0], "\n", NULL));
+			if (is_room(line[1] = ft_strtrim(line[0])))
+				res = add_room(dt, get_room_name(line[1]), lt);
 			else
 				res = FAIL;
-			free(temp);
+			free(line[1]);
 		}
-		free(line);
+		free(line[0]);
 	}
 	else if (lt == N_ANTS)
 		dt->n_ants = (int)ft_atoi(s);
 	else if (lt == ROOM)
 		res = add_room(dt, get_room_name(s), lt) ? 1 : 0;
 	else if (lt == LINK)
-		add_link(dt, s);
+		res = add_link(dt, s);
 	return (res);
 }

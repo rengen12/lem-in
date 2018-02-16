@@ -12,11 +12,6 @@
 
 #include "lem_in.h"
 
-
-
-
-
-
 void	free_room_next(t_rooms **room)
 {
 	if (room && *room)
@@ -46,7 +41,7 @@ void	delete_structs(t_data *dt)
 
 	i = 0;
 	delete_ways(&dt->ways);
-	while (i < 100)
+	while (i < 200)
 	{
 		if (dt->rooms[i])
 		{
@@ -61,30 +56,6 @@ void	delete_structs(t_data *dt)
 	}
 }
 
-
-/*NU*/
-void	print_way(t_way *way)
-{
-	while (way)
-	{
-		ft_putstr(way->room->name);
-		ft_putstr(" -> ");
-		way = way->next;
-	}
-	ft_putendl("");
-}
-
-
-
-
-
-
-
-
-
-
-
-
 static void	init_data(t_data *dt)
 {
 	int 	i;
@@ -95,22 +66,23 @@ static void	init_data(t_data *dt)
 	dt->end = 0;
 	dt->ways = 0;
 	dt->n_ways = 0;
-	while (i < 100)
+	while (i < 200)
 		dt->rooms[i++] = 0;
 }
 
 int main(void)
 {
 	t_data	dt;
+	char	*file;
 
 	init_data(&dt);
-	if (!parse(&dt))
+	if (!parse(&dt, &file))
 	{
 		delete_structs(&dt);
 		return (1);
 	}
 	find_ways(&dt);
-	print_ways(&dt);
+	print_ways(&dt, file);
 	delete_structs(&dt);
 	return (0);
 }

@@ -32,22 +32,22 @@ static int 	is_valid(t_data dt)
 {
 	if (dt.n_ants <= 0)
 	{
-		ft_puterr("Wrong number of ants");
+		//ft_puterr("Wrong number of ants");
 		return (FAIL);
 	}
 	if (!dt.st)
 	{
-		ft_puterr("Start doesn't exist");
+		//ft_puterr("Start doesn't exist");
 		return (FAIL);
 	}
 	if (!dt.end)
 	{
-		ft_puterr("End doesn't exist");
+		//ft_puterr("End doesn't exist");
 		return (FAIL);
 	}
 	if (dt.st == dt.end)
 	{
-		ft_puterr("Start is equivalent to end");
+		//ft_puterr("Start is equivalent to end");
 		return (FAIL);
 	}
 	return (1);
@@ -66,13 +66,13 @@ static int	line_type(char *s)
 		else if (is_n_ants(s))
 			return (N_ANTS);
 	}
-	ft_puterr("ERROR");
-	if (s && *s)
-		ft_puterr(s);
+	//ft_putendl("ERROR");
+	/*if (s && *s)
+		ft_puterr(s);*/
 	return (FAIL);
 }
 
-int			parse(t_data *dt)
+int			parse(t_data *dt, char **file)
 {
 	char	*line;
 	int 	res;
@@ -80,15 +80,22 @@ int			parse(t_data *dt)
 
 	res = 1;
 	line = NULL;
+	*file = (char *)malloc(1);
+	*file[0] = '\0';
 	while (res && get_next_line(0, &line) > 0)
 	{
+		if (*line == '-')
+			break ;
+		*file = ft_strjoin_fr_two(*file, (concat_strs(line, "\n", NULL)));
 		temp = ft_strtrim(line);
-		res = add_data(line_type(temp), dt, temp);
+		res = add_data(line_type(temp), dt, temp, file);
 		free(line);
 		free(temp);
 	}
 	free(line);
 	if (res != FAIL)
 		res = is_valid(*dt);
+	if (!res)
+		ft_putendl("ERROR");
 	return (res);
 }

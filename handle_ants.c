@@ -12,14 +12,14 @@
 
 #include "lem_in.h"
 
-static int	qit(int depth, int qant)
+static size_t	qit(int depth, int qant)
 {
 	if (qant <= 0 || depth <= 0)
 		return (0);
-	return (depth + qant - 1);
+	return ((size_t)(depth + qant - 1));
 }
 
-static int 	*calc_parallel(int *lways, int n_ants)
+static int		*calc_parallel(int *lways, int n_ants)
 {
 	int	*r;
 	int i;
@@ -32,6 +32,11 @@ static int 	*calc_parallel(int *lways, int n_ants)
 		i = 1;
 		r[i++]++;
 		n_ants--;
+		if (lways[0] == 1)
+		{
+			r[1] += n_ants;
+			n_ants = 0;
+		}
 		while (i <= lways[0])
 		{
 			if (n_ants > 0 && qit(lways[1], r[1]) >= qit(lways[i], r[i] + 1))
@@ -46,7 +51,7 @@ static int 	*calc_parallel(int *lways, int n_ants)
 	return (r);
 }
 
-static void	add_ant(t_ant **ants, t_way *w)
+static void		add_ant(t_ant **ants, t_way *w)
 {
 	t_ant	*new;
 	t_ant	*t;
@@ -68,7 +73,7 @@ static void	add_ant(t_ant **ants, t_way *w)
 	}
 }
 
-t_ant	*handle_ants(int n_ants, int *lways, t_way **mway)
+t_ant			*handle_ants(int n_ants, int *lways, t_way **mway)
 {
 	int 	*ant_f_w;
 	t_ant	*ants;

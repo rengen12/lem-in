@@ -15,27 +15,32 @@
 int 	is_room(char *s)
 {
 	char	*cs;
+	int 	num;
 
+	num = 0;
 	while (s && *s && *s != ' ')
 		s++;
 	if (!s || *s != ' ')
 		return (FAIL);
-	while (*s && *s == ' ')
-		s++;
+	s++;
 	cs = s;
 	*s == '-' ? s++ : NULL;
+	if (*s && !ft_isdigit(*s))
+		return (FAIL);
 	while (*s && ft_isdigit(*s))
 		s++;
 	if (*s != ' ')
 		return (FAIL);
-	while (*s && *s == ' ')
-		s++;
+	s++;
 	if (!*s || !ft_is_int(ft_atoi(cs)) || !ft_is_int(ft_atoi(s)))
 		return (FAIL);
 	*s == '-' ? s++ : NULL;
 	while (*s && ft_isdigit(*s))
+	{
+		num = 1;
 		s++;
-	if (!*s)
+	}
+	if (!*s && num)
 		return (1);
 	return (FAIL);
 }
@@ -45,7 +50,7 @@ int 	is_link(char *s)
 	int	f;
 
 	f = 0;
-	while (*s && *s != '-')
+	while (*s && *s != '-' && *s != ' ')
 		s++;
 	if (*s++ != '-')
 		return (FAIL);

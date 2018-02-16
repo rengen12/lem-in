@@ -28,6 +28,21 @@ int 	have_neigh(t_rooms *room, char *name)
 	return (0);
 }
 
+void	neigh_pb(t_rooms *room, t_neigh *neigh)
+{
+	t_neigh	*t;
+
+	if (!room->neigh)
+		room->neigh = neigh;
+	else
+	{
+		t = room->neigh;
+		while (t->next)
+			t = t->next;
+		t->next = neigh;
+	}
+}
+
 void	add_neigh(t_rooms *r1, t_rooms *r2)
 {
 	t_neigh *new1;
@@ -41,11 +56,16 @@ void	add_neigh(t_rooms *r1, t_rooms *r2)
 		return ;
 	}
 	new1->room = r1;
-	new1->next = r2->neigh;
-	r2->neigh = new1;
+	new1->next = NULL;
+//	new1->next = r2->neigh;
+//	r2->neigh = new1;
+	neigh_pb(r2, new1);
 	new2->room = r2;
-	new2->next = r1->neigh;
-	r1->neigh = new2;
+	new2->next = NULL;
+//	new2->next = r1->neigh;
+//	r1->neigh = new2;
+	neigh_pb(r1, new2);
+
 }
 
 void	delete_neigh(t_neigh **neigh)
