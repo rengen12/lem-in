@@ -15,7 +15,7 @@
 CFLAGS =	-Wall -Wextra -Werror
 SRC =		add_data.c handle_ants.c handle_link.c handle_neigh.c \
 			handle_room.c handle_way.c main.c parse.c print_ways.c query.c \
-			verifer.c way_helpers.c
+			verifer.c way_helpers.c fl_p.c
 NAME =		lem-in
 OBJFOLD =	obj/
 LIBFT =		./libft/
@@ -38,9 +38,12 @@ $(OBJFOLD)%.o:	%.c
 clean:
 	@make -C $(LIBFT) -f Makefile clean
 	@rm -rf $(OBJFOLD)
+	@echo "lem-in: objects cleaned"
 
 fclean:		clean
 	@make -C $(LIBFT) -f Makefile fclean
 	@rm -f $(NAME)
+	@echo "lem-in: binary deleted"
+
 
 re:			fclean all

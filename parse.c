@@ -12,9 +12,9 @@
 
 #include "lem_in.h"
 
-static int 	sharp(char *s)
+static int	sharp(char *s)
 {
-	int 	res;
+	int	res;
 
 	res = IGNORE;
 	if (*s == '#')
@@ -28,28 +28,10 @@ static int 	sharp(char *s)
 	return (COMM);
 }
 
-static int 	is_valid(t_data dt)
+static int	is_valid(t_data dt)
 {
-	if (dt.n_ants <= 0)
-	{
-		//ft_puterr("Wrong number of ants");
+	if (dt.n_ants <= 0 || !dt.st || !dt.end || dt.st == dt.end)
 		return (FAIL);
-	}
-	if (!dt.st)
-	{
-		//ft_puterr("Start doesn't exist");
-		return (FAIL);
-	}
-	if (!dt.end)
-	{
-		//ft_puterr("End doesn't exist");
-		return (FAIL);
-	}
-	if (dt.st == dt.end)
-	{
-		//ft_puterr("Start is equivalent to end");
-		return (FAIL);
-	}
 	return (1);
 }
 
@@ -66,17 +48,14 @@ static int	line_type(char *s)
 		else if (is_n_ants(s))
 			return (N_ANTS);
 	}
-	//ft_putendl("ERROR");
-	/*if (s && *s)
-		ft_puterr(s);*/
 	return (FAIL);
 }
 
 int			parse(t_data *dt, char **file)
 {
 	char	*line;
-	int 	res;
-	char 	*temp;
+	int		res;
+	char	*temp;
 
 	res = 1;
 	line = NULL;
@@ -92,7 +71,8 @@ int			parse(t_data *dt, char **file)
 		free(line);
 		free(temp);
 	}
-	free(line);
+	if (res)
+		free(line);
 	if (res != FAIL)
 		res = is_valid(*dt);
 	if (!res)

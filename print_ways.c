@@ -12,22 +12,14 @@
 
 #include "lem_in.h"
 
-static void		delete_ants(t_ant **ants)
-{
-	if (*ants && (*ants)->next)
-		delete_ants(&(*ants)->next);
-	free(*ants);
-	*ants = NULL;
-}
-
 static t_way	**arr_way(t_ways *ways, int nways)
 {
 	t_way	**res;
-	int 	i;
+	int		i;
 
 	i = 1;
 	if (!(res = (t_way **)malloc(sizeof(t_way *) * (nways + 1))))
-		return (NULL); //handle it
+		return (NULL);
 	res[0] = NULL;
 	while (ways)
 	{
@@ -39,12 +31,12 @@ static t_way	**arr_way(t_ways *ways, int nways)
 
 static int		*mway_l(t_ways *ways, int nw)
 {
-	int 	*res;
-	int 	i;
+	int		*res;
+	int		i;
 
 	i = 1;
 	if (!(res = ft_arrnew(nw + 1)))
-		return (NULL); //handle it
+		return (NULL);
 	res[0] = nw;
 	while (i <= nw)
 	{
@@ -72,18 +64,22 @@ void			ants_walk(int *f, t_data *dt, t_ant *cants)
 	}
 }
 
-void			print_ways(t_data *dt, char *file)
+static void		handle_file(char *file)
+{
+	ft_putendl(file);
+	free(file);
+}
+
+void			print_ways(t_data *dt, char *file, int f)
 {
 	t_ant	*ants;
 	t_ant	*cants;
-	int 	f;
 
-	if ((f = 1) == 1 && !dt->ways)
+	if (!dt->ways)
 		ft_putendl("ERROR");
 	else
 	{
-		ft_putendl(file);
-		free(file);
+		handle_file(file);
 		if (!(ants = handle_ants(dt->n_ants, mway_l(dt->ways, dt->n_ways), \
 					arr_way(dt->ways, dt->n_ways))))
 			return ;

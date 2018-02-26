@@ -12,18 +12,20 @@
 
 #include "lem_in.h"
 
-void	free_room_next(t_rooms **room)
+void		free_room_next(t_rooms **room)
 {
 	if (room && *room)
 	{
 		if ((*room)->next)
 			free_room_next(&(*room)->next);
+		delete_neigh(&(*room)->neigh);
+		free((*room)->name);
 		free(*room);
 		*room = NULL;
 	}
 }
 
-void	delete_ways(t_ways **ways)
+void		delete_ways(t_ways **ways)
 {
 	if (ways && *ways)
 	{
@@ -35,9 +37,9 @@ void	delete_ways(t_ways **ways)
 	}
 }
 
-void	delete_structs(t_data *dt)
+static void	delete_structs(t_data *dt)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	delete_ways(&dt->ways);
@@ -58,7 +60,7 @@ void	delete_structs(t_data *dt)
 
 static void	init_data(t_data *dt)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	dt->n_ants = 0;
@@ -70,7 +72,7 @@ static void	init_data(t_data *dt)
 		dt->rooms[i++] = 0;
 }
 
-int main(void)
+int			main(int ac, char **av)
 {
 	t_data	dt;
 	char	*file;
@@ -82,7 +84,9 @@ int main(void)
 		return (1);
 	}
 	find_ways(&dt);
-	print_ways(&dt, file);
+	if (ac > 1 && !ft_strcmp("-p", av[1]))
+		fl_p(dt.ways);
+	print_ways(&dt, file, 1);
 	delete_structs(&dt);
 	return (0);
 }

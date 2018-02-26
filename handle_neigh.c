@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-int 	have_neigh(t_rooms *room, char *name)
+int		have_neigh(t_rooms *room, char *name)
 {
 	t_neigh	*neigh;
 
@@ -52,20 +52,15 @@ void	add_neigh(t_rooms *r1, t_rooms *r2)
 		return ;
 	if (!(new2 = (t_neigh *)malloc(sizeof(t_neigh))))
 	{
-		free (new1);
+		free(new1);
 		return ;
 	}
 	new1->room = r1;
 	new1->next = NULL;
-//	new1->next = r2->neigh;
-//	r2->neigh = new1;
 	neigh_pb(r2, new1);
 	new2->room = r2;
 	new2->next = NULL;
-//	new2->next = r1->neigh;
-//	r1->neigh = new2;
 	neigh_pb(r1, new2);
-
 }
 
 void	delete_neigh(t_neigh **neigh)

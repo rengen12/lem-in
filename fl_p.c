@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   concat_strs.c                                      :+:      :+:    :+:   */
+/*   fl_p.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amichak <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/19 17:07:17 by amichak           #+#    #+#             */
-/*   Updated: 2018/02/19 17:07:20 by amichak          ###   ########.fr       */
+/*   Created: 2018/02/19 17:36:00 by amichak           #+#    #+#             */
+/*   Updated: 2018/02/19 17:36:00 by amichak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "lem_in.h"
 
-char	*concat_strs(char *str, ...)
+void	print_way(t_way *way)
 {
-	va_list	ap;
-	char	*res;
-
-	res = NULL;
-	if (str)
+	while (way)
 	{
-		va_start(ap, str);
-		if (!(res = ft_strnew(ft_strlen(str))))
-			return (NULL);
-		ft_strcpy(res, str);
-		while ((str = va_arg(ap, char *)))
-		{
-			res = ft_realloc(res, ft_strlen(str));
-			ft_strcat(res, str);
-		}
-		va_end(ap);
+		ft_putstr(way->room->name);
+		ft_putstr(" -> ");
+		way = way->next;
 	}
-	return (res);
+	ft_putendl("");
+}
+
+void	fl_p(t_ways *ways)
+{
+	while (ways)
+	{
+		if (ways->way)
+			print_way(ways->way);
+		ways = ways->other;
+	}
 }

@@ -12,6 +12,14 @@
 
 #include "lem_in.h"
 
+void			delete_ants(t_ant **ants)
+{
+	if (*ants && (*ants)->next)
+		delete_ants(&(*ants)->next);
+	free(*ants);
+	*ants = NULL;
+}
+
 static size_t	qit(int depth, int qant)
 {
 	if (qant <= 0 || depth <= 0)
@@ -32,11 +40,6 @@ static int		*calc_parallel(int *lways, int n_ants)
 		i = 1;
 		r[i++]++;
 		n_ants--;
-		if (lways[0] == 1)
-		{
-			r[1] += n_ants;
-			n_ants = 0;
-		}
 		while (i <= lways[0])
 		{
 			if (n_ants > 0 && qit(lways[1], r[1]) >= qit(lways[i], r[i] + 1))
@@ -75,9 +78,9 @@ static void		add_ant(t_ant **ants, t_way *w)
 
 t_ant			*handle_ants(int n_ants, int *lways, t_way **mway)
 {
-	int 	*ant_f_w;
+	int		*ant_f_w;
 	t_ant	*ants;
-	int 	i;
+	int		i;
 
 	if ((ants = NULL) != NULL || !lways || !mway)
 		return (NULL);

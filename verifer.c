@@ -12,40 +12,35 @@
 
 #include "lem_in.h"
 
-int 	is_room(char *s)
+int		is_room(char *s)
 {
 	char	*cs;
-	int 	num;
+	int		num;
 
 	num = 0;
 	while (s && *s && *s != ' ')
 		s++;
 	if (!s || *s != ' ')
 		return (FAIL);
-	s++;
-	cs = s;
+	cs = s++;
 	*s == '-' ? s++ : NULL;
 	if (*s && !ft_isdigit(*s))
 		return (FAIL);
 	while (*s && ft_isdigit(*s))
 		s++;
-	if (*s != ' ')
+	if (*s++ != ' ')
 		return (FAIL);
-	s++;
 	if (!*s || !ft_is_int(ft_atoi(cs)) || !ft_is_int(ft_atoi(s)))
 		return (FAIL);
 	*s == '-' ? s++ : NULL;
-	while (*s && ft_isdigit(*s))
-	{
-		num = 1;
+	while (*s && ft_isdigit(*s) && ++num)
 		s++;
-	}
 	if (!*s && num)
 		return (1);
 	return (FAIL);
 }
 
-int 	is_link(char *s)
+int		is_link(char *s)
 {
 	int	f;
 
@@ -66,7 +61,7 @@ int 	is_link(char *s)
 	return (FAIL);
 }
 
-int 	is_n_ants(char *s)
+int		is_n_ants(char *s)
 {
 	ssize_t	num;
 

@@ -44,7 +44,7 @@ void	clear_query(t_way **q)
 {
 	if (q && *q)
 	{
-		if ((*q)->next) //test it
+		if ((*q)->next)
 			clear_query(&(*q)->next);
 		free(*q);
 		*q = NULL;

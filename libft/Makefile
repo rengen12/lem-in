@@ -6,14 +6,14 @@
 #    By: amichak <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/11 13:15:45 by amichak           #+#    #+#              #
-#    Updated: 2017/11/15 19:41:01 by amichak          ###   ########.fr        #
+#    Updated: 2018/02/19 16:03:26 by amichak          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY:				all clean fclean re $(NAME)
 
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
 HEADER = -I ./
 OBJFOLD = src/obj/

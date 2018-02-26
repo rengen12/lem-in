@@ -12,10 +12,10 @@
 
 #include "lem_in.h"
 
-static char 	*get_room_name(char *s)
+static char	*get_room_name(char *s)
 {
 	size_t	i;
-	char 	*res;
+	char	*res;
 
 	i = 0;
 	while (s[i] != ' ')
@@ -28,10 +28,10 @@ static char 	*get_room_name(char *s)
 	return (res);
 }
 
-int		add_data(int lt, t_data *dt, char *s, char **file)
+int			add_data(int lt, t_data *dt, char *s, char **file)
 {
 	char	*line[2];
-	int 	res;
+	int		res;
 
 	if ((res = 1) == 0 || lt == COMM || lt == IGNORE || lt == FAIL)
 		return (lt);

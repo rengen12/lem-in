@@ -14,7 +14,7 @@
 
 static int		hash_func(char *s)
 {
-	int 	res;
+	int	res;
 
 	res = 0;
 	while (*s)
@@ -22,7 +22,7 @@ static int		hash_func(char *s)
 	return (res % 200);
 }
 
-t_rooms	*find_room(char *name, t_data dt)
+t_rooms			*find_room(char *name, t_data dt)
 {
 	t_rooms	*res;
 
@@ -58,7 +58,7 @@ static int		is_room_exist(char *name, t_data dt)
 
 int				add_room(t_data *dt, char *name, int lt)
 {
-	int 	hf;
+	int		hf;
 	t_rooms	*room;
 
 	if (!name || !*name)

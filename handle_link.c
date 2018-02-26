@@ -15,8 +15,8 @@
 int		add_link(t_data *dt, char *s)
 {
 	char	*name[2];
-	char 	*minsp;
-	int 	mins;
+	char	*minsp;
+	int		mins;
 	t_rooms	*r1;
 	t_rooms	*r2;
 
@@ -25,8 +25,6 @@ int		add_link(t_data *dt, char *s)
 	mins = (int)(minsp - s);
 	name[0] = ft_strsub(s, 0, (size_t)mins);
 	name[1] = ft_strsub(s, (unsigned)mins + 1, ft_strlen(s) - 1 - mins);
-	//r1 = add_room(dt, name[0], 1);
-	//r2 = add_room(dt, name[1], 1);
 	r1 = find_room(name[0], *dt);
 	r2 = find_room(name[1], *dt);
 	free(name[0]);

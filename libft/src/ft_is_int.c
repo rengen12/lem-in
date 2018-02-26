@@ -12,7 +12,7 @@
 
 #include "../libft.h"
 
-int 	ft_is_int(ssize_t num)
+int		ft_is_int(ssize_t num)
 {
 	if (num <= 2147483647 && num >= -2147483648)
 		return (1);

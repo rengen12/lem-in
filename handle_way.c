@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-t_ways	*create_way(t_rooms *tail)
+t_ways			*create_way(t_rooms *tail)
 {
 	t_ways	*res;
 
@@ -44,7 +44,7 @@ static t_ways	*find_way(t_rooms *cur, t_rooms *end, t_way **q)
 	return (way);
 }
 
-static void	reset_to_default(t_data *dt)
+static void		reset_to_default(t_data *dt)
 {
 	int i;
 
@@ -63,9 +63,9 @@ static void	reset_to_default(t_data *dt)
 	}
 }
 
-static int	count_num_ways(t_ways *ways)
+static int		count_num_ways(t_ways *ways)
 {
-	int 	i;
+	int	i;
 
 	i = 0;
 	while (ways)
@@ -76,7 +76,7 @@ static int	count_num_ways(t_ways *ways)
 	return (i);
 }
 
-void		find_ways(t_data *dt)
+void			find_ways(t_data *dt)
 {
 	t_way	*q;
 	t_ways	*res;
